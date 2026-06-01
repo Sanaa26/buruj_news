@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 import '../providers/auth_provider.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+  const RegistrationScreen({super.key});
 
   @override
   ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -24,9 +25,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      // Unfocus keyboard
       FocusScope.of(context).unfocus();
-      
       ref.read(authProvider.notifier).register(
         _emailController.text.trim(),
         _passwordController.text,
@@ -38,7 +37,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
 
-    // Listen for success or error to show Snackbars or navigate
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next.error != null && next.error != previous?.error) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -48,7 +46,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             behavior: SnackBarBehavior.floating,
           ),
         );
-        ref.read(authProvider.notifier).resetState(); // Reset so it can trigger again
+        ref.read(authProvider.notifier).resetState();
       } else if (next.isSuccess && (previous == null || !previous.isSuccess)) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -57,7 +55,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             behavior: SnackBarBehavior.floating,
           ),
         );
-        // Here you could e.g. Navigator.pushReplacement to home screen
       }
     });
 
@@ -149,11 +146,12 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       ),
                     ),
                     child: authState.isLoading
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
+                        ? SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: Lottie.network(
+                              'https://raw.githubusercontent.com/xvrh/lottie-flutter/master/example/assets/Mobilo/A.json',
+                              fit: BoxFit.contain,
                             ),
                           )
                         : const Text(

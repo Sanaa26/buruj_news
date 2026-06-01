@@ -1,4 +1,4 @@
-import 'package:buruj_news/model/source.dart';
+import 'source.dart';
 
 class Article {
   final Source source;
@@ -20,17 +20,4 @@ class Article {
     required this.publishedAt,
     this.content,
   });
-
-  factory Article.fromJson(Map<String, dynamic> json) {
-    return Article(
-      source: Source.fromJson(json['source']),
-      author: json['author'],
-      title: json['title'],
-      description: json['description'],
-      url: json['url'],
-      urlToImage: json['urlToImage'],
-      publishedAt: json['publishedAt'],
-      content: json['content'],
-    );
-  }
 }

@@ -1,12 +1,20 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class AuthService {
-  // We use reqres.in for mock post API requests to demonstrate a working login/registration.
+abstract class AuthRemoteDataSource {
+  Future<Map<String, dynamic>> register(String email, String password);
+}
+
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  final http.Client client;
+
+  AuthRemoteDataSourceImpl({required this.client});
+
+  @override
   Future<Map<String, dynamic>> register(String email, String password) async {
     final url = Uri.parse('https://reqres.in/api/register');
     
-    final response = await http.post(
+    final response = await client.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
@@ -16,7 +24,7 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body); // e.g. {"id": 4, "token": "QpwL5tke4Pnpja7X4"}
+      return jsonDecode(response.body);
     } else {
       var errorMessage = 'Registration failed';
       try {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/avatar_profile.dart';
 import 'package:avatar_plus/avatar_plus.dart';
+import '../providers/avatar_profile.dart';
 
 class ProfileScreen extends ConsumerWidget {
    ProfileScreen({super.key});
@@ -57,7 +57,7 @@ class ProfileScreen extends ConsumerWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    ref.read(avatarProvider.notifier).state = seed;
+                    ref.read(avatarProvider.notifier).setAvatar(seed);
                   },
                   child: Container(
                     decoration: BoxDecoration(

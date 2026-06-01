@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'app_config.dart';
-import 'presentation/news_screen.dart';
-import 'providers/theme_provider.dart';
+import 'features/news/presentation/pages/news_screen.dart';
+import 'core/providers/theme_provider.dart';
 
 void main() {
   if (!AppConfig.isInitialized) {
@@ -34,10 +36,13 @@ class MyApp extends ConsumerWidget {
     final config = ref.watch(appConfigProvider);
 
     return MaterialApp(
-      debugShowCheckedModeBanner: config.showDebugBanner,
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData.light().copyWith(
+        textTheme: GoogleFonts.latoTextTheme(ThemeData.light().textTheme),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        textTheme: GoogleFonts.latoTextTheme(ThemeData.dark().textTheme),
+      ),
       home: NewsScreen(),
     );
   }
